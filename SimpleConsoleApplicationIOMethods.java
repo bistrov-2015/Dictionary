@@ -10,9 +10,10 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
     CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
     public void showMenu(){
         System.out.print("Просмотреть словарь - нажмите 1; " +
-                "Найти запись - нажмите 2;" +
-                "Добавить запись - нажмите 3;" +
-                "Удалить запись - нажмите 4;" + "\n");
+                "Найти запись - нажмите 2; " +
+                "Добавить запись - нажмите 3; " +
+                "Удалить запись - нажмите 4; " +
+                "Завершить работу программы - нажмите 5;" +"\n");
     }
 
     public void showDictionary(){
@@ -97,39 +98,30 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
         String expressionValue = checkAndRequestFunctions.requestExpressionValue(numDict);
         String checkedString = expression + "\t" + expressionValue;
         try {
-            Files.writeString(pathToFile,"\n"+ checkedString, StandardOpenOption.APPEND);
+            Files.writeString(pathToFile, "\n" + checkedString, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("Ошибка записи в файл" + e);
         }
     }
 
     public boolean chekRowExistensBeforeDeleting(String searchString, File fileType) {
-        String searchStringResult = "";
-        BufferedReader br = null;
+
         try {
-            br = new BufferedReader(new FileReader(fileType));
+            BufferedReader br = new BufferedReader(new FileReader(fileType));
             String line;
-            while ((line = br.readLine()) != null) {
-                if (line.contains(searchString)) {
-                    searchStringResult = line;
-                    break;
+            while ((line = br.readLine()) != null ) {
+                if (line.startsWith(searchString) == true) {
+                    br.close();
+                    return true;
                 }
             }
             br.close();
-            if (searchStringResult != null) {
-                return true;
-            } else System.out.println("no result");
         } catch (IOException e) {
             System.out.println("Ошибка чтения файла" + e);
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return false;
     }
+
     public void  deleteEntryInDictionary(){
         String dictionaryType = checkAndRequestFunctions.promptDictionaryType();
         File fileType = defineDictionaryType(dictionaryType);
