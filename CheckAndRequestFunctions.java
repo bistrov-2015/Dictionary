@@ -133,7 +133,7 @@ public class CheckAndRequestFunctions {
     }
 
     public boolean checkSymbolString(String chekedStr) {
-        if (chekedStr.matches("^[a-zA-Z]+$") == true & chekedStr.length() == 4 ) {
+        if (chekedStr.matches("^[a-z]+$") == true & chekedStr.length() == 4 ) {// A-Z убрал чтоб был чувствителен к регистру
             return true;
         }
         return false;
