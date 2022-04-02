@@ -4,11 +4,12 @@ public class SimpleConsoleApplication implements ApplicationInterface{
     String selectedItem;
     SimpleConsoleApplicationIOMethods simpleConsoleApplicationIOMethods = new SimpleConsoleApplicationIOMethods();
     CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
+    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
     boolean runAp = true;
 
     public void runApplication(){
+        checkAndRequestFunctions.checkFileExistence();
         while (runAp) {
-            //checkAndRequestFunctions.checkFileExistence();
             showUserMenu();
             handleUserSelection();
             performSelectedAction();
@@ -16,7 +17,7 @@ public class SimpleConsoleApplication implements ApplicationInterface{
     }
 
     public void showUserMenu(){
-        simpleConsoleApplicationIOMethods.showMenu();
+        communicationWithTheUser.showMenu();
     };
 
     public void  handleUserSelection(){

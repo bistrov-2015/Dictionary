@@ -8,22 +8,34 @@ import java.util.regex.Pattern;
 
 public class CheckAndRequestFunctions {
     String separator = File.separator;
-    Path path1 = Paths.get("C:" + separator + "Dictionary1.txt");
-    Path path2 = Paths.get("C:" + separator + "Dictionary2.txt");
-    /*File file1 = new File(String.valueOf(path1));
-    File file2 = new File(String.valueOf(path2));*/
-    File file1 = new File("C:" + separator + "Dictionary1.txt");
-    File file2 = new File("C:" + separator + "Dictionary2.txt");
     String numDict;
     String selectItem;
+    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
+    Path path1 = Paths.get("C:" + separator + "LanguageDictionary.txt");
+    Path path2 = Paths.get("C:" + separator + "NumericDictionary.txt");
+    File file1 = new File("C:" + separator + "LanguageDictionary.txt");
+    File file2 = new File("C:" + separator + "NumericDictionary.txt");
+    public void checkFileExistence() {
+            try {
+                File file1 = new File(String.valueOf(path1));
+                if (file1.createNewFile())
+                    communicationWithTheUser.reportLanguageDictionaryFileCreation();
+            } catch (IOException e) {
+                communicationWithTheUser.reportLanguageDictionaryFileCreationFailed();
+            }
+            try {
+                File file2 = new File(String.valueOf(path2));
+                if (file2.createNewFile())
+                    communicationWithTheUser.reportNumericDictionaryFileCreation();
 
-
-
-
+            } catch (IOException e) {
+                communicationWithTheUser.reportNumericDictionaryFileCreationFailed();
+            }
+    }
 
     String promptUserSelection(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Выберите действие << ");
+        communicationWithTheUser.promptAction();
         selectItem = scanner.nextLine();
         if (chekUserSelection(selectItem) != true) {
             promptUserSelection();
@@ -40,7 +52,7 @@ public class CheckAndRequestFunctions {
 
     public String promptDictionaryType(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Нажмите 1, чтобы выбрать Language Dictionary или 2, чтобы выбрать Numeric Dictionary " + "\n" + "<<");
+        communicationWithTheUser.promptDictionary();
         numDict = scanner.nextLine();
         if (checkDictionaryTypeSelection(numDict) != true) {
             promptDictionaryType();
@@ -55,74 +67,38 @@ public class CheckAndRequestFunctions {
         } else return false;
     }
 
-    public void  checkFileExistence(){
-        try {
-            Scanner scanner1 = new Scanner(file1);
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл Dictionary1 не найден");
 
-        }
-        try {
-            Scanner scanner2 = new Scanner(file2);
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл Dictionary2 не найден");
-        }
-    }
 
     public String requestExpressiont(String numDict){
-        String stringToFile = promptString();
+        String stringToFile = communicationWithTheUser.promptLine();
         if("1".equals(numDict)){
             while (checkSymbolString(stringToFile) != true){
-                showStringFormatForExpression();
-                stringToFile = promptString();
+                communicationWithTheUser.showStringFormatForExpression();
+                stringToFile = communicationWithTheUser.promptLine();
             }
         }else if ("2".equals(numDict)){
             while (checkNumericString(stringToFile) != true){
-                showNumberFormatForExpression();
-                stringToFile = promptString();
+                communicationWithTheUser.showNumberFormatForExpression();
+                stringToFile = communicationWithTheUser.promptLine();
             }
         }
         return stringToFile;
     }
 
     public String requestExpressionValue(String numDict){
-        String stringToFile = promptString();
+        String stringToFile = communicationWithTheUser.promptLine();
         if("1".equals(numDict)){
             while (checkSymbolExpressionValue(stringToFile) != true){
-                showStringFormatForExpressionValue();
-                stringToFile = promptString();
+                communicationWithTheUser.showStringFormatForExpressionValue();
+                stringToFile = communicationWithTheUser.promptLine();
             }
         }else if ("2".equals(numDict)){
             while (checkNumericExpressionValue(stringToFile) != true){
-                showNumberFormatForExpressionValue();
-                stringToFile = promptString();
+                communicationWithTheUser.showNumberFormatForExpressionValue();
+                stringToFile = communicationWithTheUser.promptLine();
             }
         }
         return stringToFile;
-    }
-
-
-
-    public void showStringFormatForExpression(){
-        System.out.println("Введидите слово из 4 букв на латинской раскладке");
-    }
-
-    public void showNumberFormatForExpression(){
-        System.out.println("Введидите число из 5 цифр");
-    }
-
-    public void showStringFormatForExpressionValue(){
-        System.out.println("Введидите слово на русском языке");
-    }
-    public void showNumberFormatForExpressionValue(){
-        System.out.println("Введидите число из 5 цифр");
-    }
-
-    public String promptString(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Введидите слово<< ");
-        String stringFromUser = scanner.nextLine();
-        return stringFromUser;
     }
 
     public boolean checkNumericString(String chekedStr) {

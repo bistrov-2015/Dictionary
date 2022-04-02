@@ -4,17 +4,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
+
 
 public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
     CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
-    public void showMenu(){
-        System.out.print("Просмотреть словарь - нажмите 1; " +
-                "Найти запись - нажмите 2; " +
-                "Добавить запись - нажмите 3; " +
-                "Удалить запись - нажмите 4; " +
-                "Завершить работу программы - нажмите 5;" +"\n");
-    }
+    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
 
     public void showDictionary(){
         BufferedReader br = null;
@@ -26,7 +20,7 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
                 System.out.println(line);
             }
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла" + e);
+            communicationWithTheUser.fileReadError();
         } finally {
             try {
                 br.close();
@@ -60,9 +54,7 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
         String dictionariType = checkAndRequestFunctions.promptDictionaryType();
         File fileType = defineDictionaryType(dictionariType);
         BufferedReader br = null;
-        System.out.println("Введите слово");
-        Scanner scanner = new Scanner(System.in);
-        String searchString = scanner.nextLine();
+        String searchString = communicationWithTheUser.promptLine();
         String searchStringResult = null;
 
         try {
@@ -75,10 +67,9 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
             } br.close();
             if(searchStringResult != null){
                 System.out.println(searchStringResult);
-                searchStringResult = null;
-            } else System.out.println("no result");
+            } else communicationWithTheUser.stringNotFound();
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла" + e);
+            communicationWithTheUser.fileReadError();
         } finally {
             try {
                 br.close();
@@ -94,13 +85,13 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
         String numDict = checkAndRequestFunctions.promptDictionaryType();
         Path pathToFile = definePathtoFile(numDict);
         String expression = checkAndRequestFunctions.requestExpressiont(numDict);
-        System.out.println("Введите значение");
+        communicationWithTheUser.promptValue();
         String expressionValue = checkAndRequestFunctions.requestExpressionValue(numDict);
         String checkedString = expression + "\t" + expressionValue;
         try {
             Files.writeString(pathToFile, "\n" + checkedString, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            System.out.println("Ошибка записи в файл" + e);
+            communicationWithTheUser.fileWritingError();
         }
     }
 
@@ -117,7 +108,7 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
             }
             br.close();
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла" + e);
+            communicationWithTheUser.fileReadError();
         }
         return false;
     }
@@ -128,10 +119,9 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
         Path path = definePathtoFile(dictionaryType);
         File temporaryFile = new File("C:" + checkAndRequestFunctions.separator + "temp.txt");
         BufferedReader br = null;
-        System.out.println("Введите слово");
-        Scanner scanner = new Scanner(System.in);
+        communicationWithTheUser.promptLine();
         String searchString = checkAndRequestFunctions.requestExpressiont(dictionaryType);
-        String searchStringResult = "";
+
         if(chekRowExistensBeforeDeleting(searchString,fileType) == true) {
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(temporaryFile));
@@ -155,7 +145,7 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
 
 
             } catch (IOException e) {
-                System.out.println("Ошибка чтения файла" + e);
+                communicationWithTheUser.fileReadError();
             } finally {
                 try {
                     br.close();
