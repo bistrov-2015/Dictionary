@@ -119,7 +119,7 @@ public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
         Path path = definePathtoFile(dictionaryType);
         File temporaryFile = new File("C:" + checkAndRequestFunctions.separator + "temp.txt");
         BufferedReader br = null;
-        communicationWithTheUser.promptLine();
+        //communicationWithTheUser.promptLine();
         String searchString = checkAndRequestFunctions.requestExpressiont(dictionaryType);
 
         if(chekRowExistensBeforeDeleting(searchString,fileType) == true) {
