@@ -1,4 +1,10 @@
-/**/
+/*
+* класс реализует логику работы приложения имплементируя ApplicationInterface;
+* public void runApplication() - вызывает методы до тех пор пока переменная runAp = true;
+* public void showUserMenu() - метод реализует показ пользователю пунктов меню приложения;
+* public void  handleUserSelection() - метод реализует запрос действия от пользователя;
+* public void performSelectedAction() - метод обрабатывет выбор пользователя в зависимости от выбранного пункта меню;
+ * */
 package MyApplication.Classes;
 
 import MyApplication.Interfaces.ApplicationInterface;
@@ -6,12 +12,14 @@ import MyApplication.Interfaces.ApplicationInterface;
 public class SimpleConsoleApplication implements ApplicationInterface {
     String selectedItem;
     SimpleConsoleApplicationIOMethods simpleConsoleApplicationIOMethods = new SimpleConsoleApplicationIOMethods();
-    CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
     CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
+    CheckFunctions checkFunctions = new CheckFunctions();
+    RequestFunctions requestFunctions = new RequestFunctions();
+
     boolean runAp = true;
 
     public void runApplication(){
-        checkAndRequestFunctions.checkFileExistence();
+        checkFunctions.checkFileExistence();
         while (runAp) {
             showUserMenu();
             handleUserSelection();
@@ -24,7 +32,7 @@ public class SimpleConsoleApplication implements ApplicationInterface {
     };
 
     public void  handleUserSelection(){
-        selectedItem = checkAndRequestFunctions.promptUserSelection();
+        selectedItem = requestFunctions.promptUserSelection();
     };
 
     public void performSelectedAction(){
