@@ -1,19 +1,36 @@
 /*
-* */
-package Classes;
+* класс реализует логику работы приложения имплементируя ApplicationInterface;
+* public void runApplication() - вызывает методы до тех пор пока переменная runAp = true;
+* public void showUserMenu() - метод реализует показ пользователю пунктов меню приложения;
+* public void  handleUserSelection() - метод реализует запрос действия от пользователя;
+* public void performSelectedAction() - метод обрабатывет выбор пользователя в зависимости от выбранного пункта меню;
+ * */
+package MyApplication.Classes;
 
-
-import Interfaces.ApplicationInterface;
+import MyApplication.Interfaces.ApplicationInterface;
 
 public class SimpleConsoleApplication implements ApplicationInterface {
     String selectedItem;
-    SimpleConsoleApplicationIOMethods simpleConsoleApplicationIOMethods = new SimpleConsoleApplicationIOMethods();
-    CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
-    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
+    SimpleConsoleApplicationIOMethods simpleConsoleApplicationIOMethods;// = new SimpleConsoleApplicationIOMethods();
+    CommunicationWithTheUser communicationWithTheUser;// = new CommunicationWithTheUser();
+    CheckFunctions checkFunctions;//= new CheckFunctions();
+    RequestFunctions requestFunctions;// = new RequestFunctions();
+
+    public SimpleConsoleApplication(SimpleConsoleApplicationIOMethods simpleConsoleApplicationIOMethods, CommunicationWithTheUser communicationWithTheUser, CheckFunctions checkFunctions, RequestFunctions requestFunctions) {
+        this.simpleConsoleApplicationIOMethods = simpleConsoleApplicationIOMethods;
+        this.communicationWithTheUser = communicationWithTheUser;
+        this.checkFunctions = checkFunctions;
+        this.requestFunctions = requestFunctions;
+    }
+
+//    public void setSelectedItem(String selectedItem) {
+//        this.selectedItem = selectedItem;
+//    }
+
     boolean runAp = true;
 
     public void runApplication(){
-        checkAndRequestFunctions.checkFileExistence();
+        checkFunctions.checkFileExistence();
         while (runAp) {
             showUserMenu();
             handleUserSelection();
@@ -26,7 +43,7 @@ public class SimpleConsoleApplication implements ApplicationInterface {
     };
 
     public void  handleUserSelection(){
-        selectedItem = checkAndRequestFunctions.promptUserSelection();
+        selectedItem = requestFunctions.promptUserSelection();
     };
 
     public void performSelectedAction(){

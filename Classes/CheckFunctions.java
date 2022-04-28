@@ -18,7 +18,12 @@ import java.util.regex.Pattern;
 
 public class CheckFunctions {
     String separator = File.separator;
-    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
+    CommunicationWithTheUser communicationWithTheUser;// = new CommunicationWithTheUser();
+
+    public CheckFunctions(CommunicationWithTheUser communicationWithTheUser) {
+        this.communicationWithTheUser = communicationWithTheUser;
+    }
+
     Path path1 = Paths.get("C:" + separator + "LanguageDictionary.txt");
     Path path2 = Paths.get("C:" + separator + "NumericDictionary.txt");
     File file1 = new File("C:" + separator + "LanguageDictionary.txt");

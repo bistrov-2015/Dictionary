@@ -10,10 +10,24 @@ package MyApplication.Classes;
 import java.util.Scanner;
 
 public class RequestFunctions {
-    CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
-    CheckFunctions checkFunctions = new CheckFunctions();
+    CommunicationWithTheUser communicationWithTheUser;// = new CommunicationWithTheUser();
+    CheckFunctions checkFunctions;// = new CheckFunctions();
     String numDict;
     String selectItem;
+
+    public RequestFunctions(CommunicationWithTheUser communicationWithTheUser, CheckFunctions checkFunctions) {
+        this.communicationWithTheUser = communicationWithTheUser;
+        this.checkFunctions = checkFunctions;
+    }
+
+    public void setNumDict(String numDict) {
+        this.numDict = numDict;
+    }
+
+    public void setSelectItem(String selectItem) {
+        this.selectItem = selectItem;
+    }
+
     public String promptUserSelection(){
         Scanner scanner = new Scanner(System.in);
         communicationWithTheUser.promptAction();
