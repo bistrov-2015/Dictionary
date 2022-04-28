@@ -1,7 +1,7 @@
 package MyApplication.Interfaces;
 
 public interface UserInteractionInterface {
-    public void showUserMenu();
-    public void  handleUserSelection();
-    public void performSelectedAction();
+    void showUserMenu();
+    void  handleUserSelection();
+    void performSelectedAction();
 }
