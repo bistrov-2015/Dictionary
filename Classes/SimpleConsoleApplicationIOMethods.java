@@ -1,31 +1,20 @@
 /*
-* класс реализует методы ввода/вывода:
-* public void showDictionary() - метод выводит в консоль выбранный пользователем словарь;
-* public File defineDictionaryType(String dictionaryType) - метод определят с каким файлом необходимо работать, взависимости от того какой словарь выбрал пользователь;
-* public Path definePathtoFile(String numDict) - метод возвращает путь до выбранного файла;
-* public void  findEntryInDictionary() - метод поиска в словаре по ключу и по значению;
-* public void  makeEntryInDictionary() - метод реализующий запись в словарь;
-* public boolean chekRowExistensBeforeDeleting(String searchString, File fileType) - метод проверяющий существование записи перед её удалением;
-* public void  deleteEntryInDictionary() - метод реализует удаление записи из словаря;
 * */
-package MyApplication.Classes;
-
-import MyApplication.Interfaces.DictionaryInterface;
+package Classes;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import Interfaces.DictionaryInterface;
 
-
-public class SimpleConsoleApplicationIOMethods implements DictionaryInterface {
-    CheckFunctions checkFunctions = new CheckFunctions();
-    RequestFunctions requestFunctions = new RequestFunctions();
+public class SimpleConsoleApplicationIOMethods implements  DictionaryInterface{
+    CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
     CommunicationWithTheUser communicationWithTheUser = new CommunicationWithTheUser();
 
     public void showDictionary(){
         BufferedReader br = null;
-        String dictionariType = requestFunctions.promptDictionaryType();
+        String dictionariType = checkAndRequestFunctions.promptDictionaryType();
         try {
             br = new BufferedReader(new FileReader(defineDictionaryType(dictionariType)));
             String line;
@@ -44,27 +33,27 @@ public class SimpleConsoleApplicationIOMethods implements DictionaryInterface {
     }
 
     public File defineDictionaryType(String dictionaryType){// переменнjq fileType присваивается значение взависимости от того каой словарь выбран
-        File fileType = checkFunctions.file1;
+        File fileType = checkAndRequestFunctions.file1;
         if("1".equals(dictionaryType)){
-            return fileType = checkFunctions.file1;
+            return fileType = checkAndRequestFunctions.file1;
         } else if("2".equals(dictionaryType)){
-            return fileType = checkFunctions.file2;
+            return fileType = checkAndRequestFunctions.file2;
         }
         return fileType;// возможно создать дефолтный вайл
     }
 
     public Path definePathtoFile(String numDict){// переменной path присваивается значение взависимости от того каой словарь выбран
-        Path path = checkFunctions.path1;
+        Path path = checkAndRequestFunctions.path1;
         if("1".equals(numDict)){
-            return path = checkFunctions.path1;
+            return path = checkAndRequestFunctions.path1;
         } else if("2".equals(numDict)){
-            return path = checkFunctions.path2;
+            return path = checkAndRequestFunctions.path2;
         }
         return path;// возможно создать путь к дефолтному вайлу
     }
 
     public void  findEntryInDictionary(){
-        String dictionariType = requestFunctions.promptDictionaryType();
+        String dictionariType = checkAndRequestFunctions.promptDictionaryType();
         File fileType = defineDictionaryType(dictionariType);
         BufferedReader br = null;
         String searchString = communicationWithTheUser.promptLine();
@@ -94,12 +83,12 @@ public class SimpleConsoleApplicationIOMethods implements DictionaryInterface {
 
 
     public void  makeEntryInDictionary(){
-        RequestFunctions requestFunctions = new RequestFunctions();
-        String numDict = requestFunctions.promptDictionaryType();
+        CheckAndRequestFunctions checkAndRequestFunctions = new CheckAndRequestFunctions();
+        String numDict = checkAndRequestFunctions.promptDictionaryType();
         Path pathToFile = definePathtoFile(numDict);
-        String expression = requestFunctions.requestExpressiont(numDict);
+        String expression = checkAndRequestFunctions.requestExpressiont(numDict);
         communicationWithTheUser.promptValue();
-        String expressionValue = requestFunctions.requestExpressionValue(numDict);
+        String expressionValue = checkAndRequestFunctions.requestExpressionValue(numDict);
         String checkedString = expression + "\t" + expressionValue;
         try {
             Files.writeString(pathToFile, "\n" + checkedString, StandardOpenOption.APPEND);
@@ -127,13 +116,13 @@ public class SimpleConsoleApplicationIOMethods implements DictionaryInterface {
     }
 
     public void  deleteEntryInDictionary(){
-        String dictionaryType = requestFunctions.promptDictionaryType();
+        String dictionaryType = checkAndRequestFunctions.promptDictionaryType();
         File fileType = defineDictionaryType(dictionaryType);
         Path path = definePathtoFile(dictionaryType);
-        File temporaryFile = new File("C:" + checkFunctions.separator + "temp.txt");
+        File temporaryFile = new File("C:" + checkAndRequestFunctions.separator + "temp.txt");
         BufferedReader br = null;
         //communicationWithTheUser.promptLine();
-        String searchString = requestFunctions.requestExpressiont(dictionaryType);
+        String searchString = checkAndRequestFunctions.requestExpressiont(dictionaryType);
 
         if(chekRowExistensBeforeDeleting(searchString,fileType) == true) {
             try {

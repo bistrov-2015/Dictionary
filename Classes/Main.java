@@ -1,7 +1,8 @@
-/**/
-package MyApplication.Classes;
+/*
+* */
+package Classes;
 
-public class Main extends ApplicationLogic {
+public class Main extends ApplicationLogic{
     public static void main(String[] args) {
         ApplicationLogic applicationLogic = new ApplicationLogic();
         applicationLogic.runApplication();

@@ -1,6 +1,6 @@
 /*
-* класс запукает приложение при помощи метода public void runApplication(), в котором у объекта simpleConsoleApplication вызывается метод runApplication() переопределённый в классе simpleConsoleApplication*/
-package MyApplication.Classes;
+* */
+package Classes;
 
 public class ApplicationLogic {
     SimpleConsoleApplication simpleConsoleApplication = new SimpleConsoleApplication();

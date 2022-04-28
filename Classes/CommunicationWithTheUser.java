@@ -1,7 +1,6 @@
 /*
-* калсс реализует методы для общения с пользователем
 * */
-package MyApplication.Classes;
+package Classes;
 
 
 import java.util.Scanner;
